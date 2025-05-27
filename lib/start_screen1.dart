@@ -95,7 +95,7 @@ class StartScreen1 extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 40),
               child: ElevatedButton(
                 onPressed: () {
-                  // TODO: Navigate to the next screen
+                  Navigator.pushReplacementNamed(context, '/start2');
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color(0xFF2196F3), // Blue button
