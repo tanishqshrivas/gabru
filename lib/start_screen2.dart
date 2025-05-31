@@ -11,29 +11,28 @@ class StartScreen2 extends StatelessWidget {
             end: Alignment.bottomCenter,
             colors: [
               Color(0xFFE8F5E9), // Light green at the top
-              Colors.white, // White at the bottom
+              Colors.white,      // White at the bottom
             ],
           ),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Spacer(flex: 2),
-            // Chat bubble icon in a green circle
+            Spacer(flex: 3),
+
+            // Replace Icon with Image (chat bubble in green circle)
             Container(
-              padding: EdgeInsets.all(20),
+              width: 100,
+              height: 100,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Color(0xFF4CAF50), // Green circle background
+                color: Colors.transparent,
               ),
-              child: Icon(
-                Icons.chat_bubble_outline,
-                size: 50,
-                color: Colors.white,
-              ),
+              child: Image.asset('assets/screen2.png'),
             ),
-            SizedBox(height: 40),
-            // Title text
+
+            SizedBox(height: 12),
+
             Text(
               "AI Health Assistant",
               style: TextStyle(
@@ -42,12 +41,13 @@ class StartScreen2 extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
-            SizedBox(height: 10),
-            // Subtitle text
+
+            SizedBox(height: 12),
+
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: Text(
-                "Get instant answers to your health questions with our smart chatbot",
+                "Get instant answers to your health\n questions with our smart chatbot",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,
@@ -55,44 +55,23 @@ class StartScreen2 extends StatelessWidget {
                 ),
               ),
             ),
+
             Spacer(),
+
             // Pagination dots
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  width: 10,
-                  height: 10,
-                  margin: EdgeInsets.symmetric(horizontal: 4),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.grey, // Inactive dot
-                  ),
-                ),
-                Container(
-                  width: 10,
-                  height: 10,
-                  margin: EdgeInsets.symmetric(horizontal: 4),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Color(0xFF4CAF50), // Active dot (green)
-                  ),
-                ),
-                Container(
-                  width: 10,
-                  height: 10,
-                  margin: EdgeInsets.symmetric(horizontal: 4),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.grey, // Inactive dot
-                  ),
-                ),
+                _buildDot(isActive: false),
+                _buildDot(isActive: true),
+                _buildDot(isActive: false),
               ],
             ),
-            SizedBox(height: 40),
-            // Next button
+
+            SizedBox(height: 20),
+
             Padding(
-              padding: const EdgeInsets.only(bottom: 40),
+              padding: const EdgeInsets.only(bottom: 200),
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.pushReplacementNamed(context, '/start3');
@@ -115,6 +94,18 @@ class StartScreen2 extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildDot({required bool isActive}) {
+    return Container(
+      width: 10,
+      height: 10,
+      margin: EdgeInsets.symmetric(horizontal: 5),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: isActive ? Color(0xFF4CAF50) : Colors.grey,
       ),
     );
   }

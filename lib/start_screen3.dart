@@ -18,21 +18,17 @@ class StartScreen3 extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Spacer(flex: 2),
-            // Shield icon in a red circle
-            Container(
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Color(0xFFF44336), // Red circle background
-              ),
-              child: Icon(
-                Icons.security,
-                size: 50,
-                color: Colors.white,
-              ),
+            Spacer(flex: 3),
+
+            // Replaced shield icon with uploaded image
+            Image.asset(
+              'assets/screen3.png',
+              width: 100,
+              height: 100,
             ),
-            SizedBox(height: 40),
+
+            SizedBox(height: 12),
+
             // Title text
             Text(
               "Emergency Support",
@@ -42,12 +38,14 @@ class StartScreen3 extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
-            SizedBox(height: 10),
+
+            SizedBox(height: 12),
+
             // Subtitle text
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 40),
               child: Text(
-                "Quick access to emergency contacts and medical history when needed",
+                "Quick access to emergency contacts\n and medical history when needed",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 16,
@@ -55,7 +53,9 @@ class StartScreen3 extends StatelessWidget {
                 ),
               ),
             ),
+
             Spacer(),
+
             // Pagination dots
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -66,7 +66,7 @@ class StartScreen3 extends StatelessWidget {
                   margin: EdgeInsets.symmetric(horizontal: 4),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.grey, // Inactive dot
+                    color: Colors.grey,
                   ),
                 ),
                 Container(
@@ -75,7 +75,7 @@ class StartScreen3 extends StatelessWidget {
                   margin: EdgeInsets.symmetric(horizontal: 4),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: Colors.grey, // Inactive dot
+                    color: Colors.grey,
                   ),
                 ),
                 Container(
@@ -89,10 +89,12 @@ class StartScreen3 extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 40),
+
+            SizedBox(height: 20),
+
             // Get Started button
             Padding(
-              padding: const EdgeInsets.only(bottom: 40),
+              padding: const EdgeInsets.only(bottom: 200),
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.pushReplacementNamed(context, '/sign_in');

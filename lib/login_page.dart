@@ -41,11 +41,11 @@ class LoginPage extends StatelessWidget {
               child: Column(
                 children: [
                   Image.asset(
-                    'assets/app_logo.png',
-                    width: 150,
-                    height: 150,
+                    'assets/logo_sanjeevika.jpeg',
+                    width: 100,
+                    height: 100,
                   ),
-                  SizedBox(height: 16),
+                  SizedBox(height: 12),
                   Text(
                     'Sanjeevika',
                     style: TextStyle(
@@ -83,14 +83,14 @@ class LoginPage extends StatelessWidget {
                 color: Colors.grey.shade700,
               ),
             ),
-            SizedBox(height: 20),
+            SizedBox(height: 12),
             Center(
               child: ElevatedButton.icon(
                 onPressed: () => _signInWithGoogle(context),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.black,
-                  padding: EdgeInsets.symmetric(horizontal: 60, vertical: 20),
+                  padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30),
                     side: BorderSide(color: Colors.grey.shade300),
@@ -99,13 +99,13 @@ class LoginPage extends StatelessWidget {
                 ),
                 icon: Image.asset(
                   'assets/google_logo.png',
-                  height: 30,
-                  width: 30,
+                  height: 25,
+                  width: 25,
                 ),
                 label: Text(
                   "Sign in with Google",
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 15,
                     color: Colors.black,
                   ),
                 ),
