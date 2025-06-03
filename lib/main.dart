@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:project/home_page.dart';
 import 'package:project/login_page.dart';
 import 'package:project/splash_screen.dart';
 import 'package:project/start_screen1.dart';
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
         '/start2': (context) => StartScreen2(),
         '/start3': (context) => StartScreen3(),
         '/sign_in': (context) => LoginPage(),
+        '/home': (context) => HomePage(),
       },
     );
   }

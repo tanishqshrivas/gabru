@@ -86,7 +86,9 @@ class LoginPage extends StatelessWidget {
             SizedBox(height: 12),
             Center(
               child: ElevatedButton.icon(
-                onPressed: () => _signInWithGoogle(context),
+                onPressed: () {
+                  Navigator.pushReplacementNamed(context, '/home');
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
                   foregroundColor: Colors.black,
