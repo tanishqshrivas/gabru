@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'emergency.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -136,7 +137,7 @@ class HomePage extends StatelessWidget {
               ),
             ),
             const Text(
-              "Today’s Medications",
+              "Today's Medications",
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
@@ -180,57 +181,73 @@ class HomePage extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.blue[600],
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Column(
-                            children: const [
-                              Icon(Icons.calendar_today, color: Colors.white),
-                              SizedBox(height: 8),
-                              Text(
-                                "Appointments",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                "4 Active",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
+                        child: GestureDetector(
+                          onTap: () {
+                            // Navigate to Appointments page
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Appointments page - Coming Soon!')),
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.blue[600],
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Column(
+                              children: const [
+                                Icon(Icons.calendar_today, color: Colors.white),
+                                SizedBox(height: 8),
+                                Text(
+                                  "Appointments",
+                                  style: TextStyle(color: Colors.white),
                                 ),
-                              ),
-                            ],
+                                SizedBox(height: 4),
+                                Text(
+                                  "4 Active",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                       const SizedBox(width: 10),
                       Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.green[600],
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Column(
-                            children: const [
-                              Icon(Icons.medical_services, color: Colors.white),
-                              SizedBox(height: 8),
-                              Text(
-                                "Refills",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                "2 Due Soon",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
+                        child: GestureDetector(
+                          onTap: () {
+                            // Navigate to Refills page
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('Refills page - Coming Soon!')),
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.green[600],
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Column(
+                              children: const [
+                                Icon(Icons.medical_services, color: Colors.white),
+                                SizedBox(height: 8),
+                                Text(
+                                  "Refills",
+                                  style: TextStyle(color: Colors.white),
                                 ),
-                              ),
-                            ],
+                                SizedBox(height: 4),
+                                Text(
+                                  "2 Due Soon",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -246,57 +263,74 @@ class HomePage extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.pink[400],
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Column(
-                            children: const [
-                              Icon(Icons.chat, color: Colors.white),
-                              SizedBox(height: 8),
-                              Text(
-                                "AI Assistant",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                "Ask Anything",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
+                        child: GestureDetector(
+                          onTap: () {
+                            // Navigate to AI Assistant page
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text('AI Assistant page - Coming Soon!')),
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.pink[400],
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Column(
+                              children: const [
+                                Icon(Icons.chat, color: Colors.white),
+                                SizedBox(height: 8),
+                                Text(
+                                  "AI Assistant",
+                                  style: TextStyle(color: Colors.white),
                                 ),
-                              ),
-                            ],
+                                SizedBox(height: 4),
+                                Text(
+                                  "Ask Anything",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
                       const SizedBox(width: 10),
                       Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: Colors.red[600],
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Column(
-                            children: const [
-                              Icon(Icons.warning, color: Colors.white),
-                              SizedBox(height: 8),
-                              Text(
-                                "EMERGENCY",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                "SOS Help",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 12,
+                        child: GestureDetector(
+                          onTap: () {
+                            // Navigate to Emergency page
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const EmergencyPage()),
+                            );
+                          },
+                          child: Container(
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              color: Colors.red[600],
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Column(
+                              children: const [
+                                Icon(Icons.warning, color: Colors.white),
+                                SizedBox(height: 8),
+                                Text(
+                                  "EMERGENCY",
+                                  style: TextStyle(color: Colors.white),
                                 ),
-                              ),
-                            ],
+                                SizedBox(height: 4),
+                                Text(
+                                  "SOS Help",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),
