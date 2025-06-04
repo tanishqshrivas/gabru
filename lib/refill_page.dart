@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class RefillPage extends StatefulWidget {
   const RefillPage({super.key});
 
@@ -10,6 +9,222 @@ class RefillPage extends StatefulWidget {
 
 class _RefillPageState extends State<RefillPage> {
   bool showSuccessNotification = false;
+  int selectedQuantity = 1;
+  int orderedQuantity = 0; // Add this to track the ordered quantity
+
+  void _showQuantityDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setDialogState) {
+            return Center(
+              child: Container(
+                margin: const EdgeInsets.symmetric(horizontal: 24),
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE8F5E8),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: const Icon(
+                        Icons.shopping_cart_outlined,
+                        color: Color(0xFF4CAF50),
+                        size: 32,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Select Quantity',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Metformin 500mg',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    const Text(
+                      'Diabetes',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const Text(
+                      '2 tablets daily',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFE8F5E8),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              if (selectedQuantity > 1) {
+                                setDialogState(() {
+                                  selectedQuantity--;
+                                });
+                              }
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Icon(
+                                Icons.remove,
+                                color: Colors.grey,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 24),
+                          Text(
+                            selectedQuantity.toString(),
+                            style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black87,
+                            ),
+                          ),
+                          const SizedBox(width: 24),
+                          GestureDetector(
+                            onTap: () {
+                              setDialogState(() {
+                                selectedQuantity++;
+                              });
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF4CAF50),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Icon(
+                                Icons.add,
+                                color: Colors.white,
+                                size: 20,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Text(
+                      'Requesting $selectedQuantity pack(s) of Metformin 500mg',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const SizedBox(height: 24),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              setState(() {
+                                selectedQuantity = 1;
+                              });
+                            },
+                            style: TextButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              backgroundColor: Colors.grey[200],
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: const Text(
+                              'Cancel',
+                              style: TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              setState(() {
+                                orderedQuantity = selectedQuantity; // Store the ordered quantity
+                                showSuccessNotification = true;
+                              });
+                              // Hide notification after 3 seconds
+                              Future.delayed(const Duration(seconds: 3), () {
+                                if (mounted) {
+                                  setState(() {
+                                    showSuccessNotification = false;
+                                  });
+                                }
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF4CAF50),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: const [
+                                Icon(Icons.check, color: Colors.white, size: 18),
+                                SizedBox(width: 4),
+                                Text(
+                                  'OK',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +311,7 @@ class _RefillPageState extends State<RefillPage> {
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: const Icon(
-                             Icons.medication_outlined,
+                              Icons.medication_outlined,
                               color: Color(0xFF2196F3),
                               size: 24,
                             ),
@@ -127,17 +342,7 @@ class _RefillPageState extends State<RefillPage> {
                           ),
                           GestureDetector(
                             onTap: () {
-                              setState(() {
-                                showSuccessNotification = true;
-                              });
-                              // Hide notification after 3 seconds
-                              Future.delayed(const Duration(seconds: 3), () {
-                                if (mounted) {
-                                  setState(() {
-                                    showSuccessNotification = false;
-                                  });
-                                }
-                              });
+                              _showQuantityDialog();
                             },
                             child: Container(
                               padding: const EdgeInsets.symmetric(
@@ -208,8 +413,8 @@ class _RefillPageState extends State<RefillPage> {
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: const [
-                          Text(
+                        children: [
+                          const Text(
                             'Order Placed Successfully!',
                             style: TextStyle(
                               color: Colors.white,
@@ -217,10 +422,10 @@ class _RefillPageState extends State<RefillPage> {
                               fontWeight: FontWeight.bold,
                             ),
                           ),
-                          SizedBox(height: 2),
+                          const SizedBox(height: 2),
                           Text(
-                            'Amlodipine 5mg · 1 pack(s) ordered',
-                            style: TextStyle(
+                            'Amlodipine 5mg · $orderedQuantity pack(s) ordered', // Updated to show actual ordered quantity
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 12,
                             ),
