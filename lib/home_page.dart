@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/refill_page.dart';
 import 'emergency.dart';
 
 class HomePage extends StatelessWidget {
@@ -220,8 +221,9 @@ class HomePage extends StatelessWidget {
                         child: GestureDetector(
                           onTap: () {
                             // Navigate to Refills page
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Refills page - Coming Soon!')),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const RefillPage()),
                             );
                           },
                           child: Container(
