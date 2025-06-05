@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:project/appointment_page.dart';
 import 'package:project/refill_page.dart';
+import 'ai_page.dart';
 import 'emergency.dart';
 
 class HomePage extends StatelessWidget {
@@ -304,10 +305,10 @@ class HomePage extends StatelessWidget {
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
-                            // Navigate to AI Assistant page
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('AI Assistant page - Coming Soon!')),
-                            );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const AiPage()),
+                              );
                           },
 
                           child: Container(
