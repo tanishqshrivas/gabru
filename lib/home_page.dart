@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:project/appointment_page.dart';
 import 'package:project/refill_page.dart';
 import 'emergency.dart';
 
@@ -51,12 +52,12 @@ class HomePage extends StatelessWidget {
                   ),
                   child: const CircleAvatar(
                     backgroundColor: Colors.white,
-                    child: Icon(Icons.person, color: Colors.grey),
+                    child: Icon(Icons.person_outline_outlined, color: Colors.grey),
                   ),
                 ),
                 const SizedBox(width: 2),
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: const [
                     Text(
@@ -81,61 +82,63 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-              child: Container(
+              child:
+              Container(
                 width: double.infinity,
-                margin: const EdgeInsets.symmetric(vertical: 20),
+                margin: const EdgeInsets.symmetric(vertical: 25),
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: Colors.pink[50],
-                  borderRadius: BorderRadius.circular(16),
+                  color: const Color(0xFFFFF4F4), // Light pink background
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border(
+                    left: BorderSide(
+                      color: Colors.redAccent,
+                      width: 5,
+                    ),
+                  ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 10,
-                      offset: Offset(0, 4),
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
                     ),
                   ],
                 ),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const [
+                      children: const[
                         Text(
                           "New Notification!",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.red,
-                            fontSize: 15,
+                            fontSize: 12,
                           ),
                         ),
                         Icon(
                           Icons.close,
                           color: Colors.grey,
+                          size: 20,
                         ),
                       ],
                     ),
-                    const SizedBox(height: 12),
-                    Row(
-                      children: const [
-                        Icon(Icons.notifications, color: Colors.red),
-                        SizedBox(width: 10),
-                        Expanded(
-                          child: Text(
-                            '"You missed your morning before-meal tablet.\n Please take care next time 💊❤️."',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.blueGrey,
-                              fontSize: 18,
-                            ),
-                          ),
-                        ),
-                      ],
+                    const SizedBox(height: 10),
+                    const Text(
+                       "“You missed your morning before-meal tablet.\n         Please take care next time 💊❤️.”",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.blueGrey,
+                      ),
                     ),
                   ],
                 ),
               ),
+
             ),
             const Text(
               "Today's Medications",
@@ -166,6 +169,8 @@ class HomePage extends StatelessWidget {
               dose: "500 mg",
               showButtons: true,
             ),
+
+
             // Quick Access Section moved here
             const SizedBox(height: 20),
             const Text(
@@ -184,36 +189,52 @@ class HomePage extends StatelessWidget {
                       Expanded(
                         child: GestureDetector(
                           onTap: () {
-                            // Navigate to Appointments page
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text('Appointments page - Coming Soon!')),
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => const AppointmentPage()),
                             );
                           },
+
                           child: Container(
-                            padding: const EdgeInsets.all(12),
+                            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                             decoration: BoxDecoration(
                               color: Colors.blue[600],
-                              borderRadius: BorderRadius.circular(12),
+                              borderRadius: BorderRadius.circular(16),
                             ),
-                            child: Column(
-                              children: const [
-                                Icon(Icons.calendar_today, color: Colors.white),
-                                SizedBox(height: 8),
-                                Text(
-                                  "Appointments",
-                                  style: TextStyle(color: Colors.white),
+                            child: Center(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                                SizedBox(height: 4),
-                                Text(
-                                  "4 Active",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                  ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: const [
+                                    Icon(Icons.calendar_today_outlined, color: Colors.green, size: 28),
+                                    SizedBox(height: 8),
+                                    Text(
+                                      "Appointments",
+                                      style: TextStyle(
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      "4 Active",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
                           ),
+
                         ),
                       ),
                       const SizedBox(width: 10),
@@ -226,31 +247,47 @@ class HomePage extends StatelessWidget {
                               MaterialPageRoute(builder: (context) => const RefillPage()),
                             );
                           },
+
                           child: Container(
-                            padding: const EdgeInsets.all(12),
+                            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                             decoration: BoxDecoration(
-                              color: Colors.green[600],
-                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.green,
+                              borderRadius: BorderRadius.circular(16),
                             ),
-                            child: Column(
-                              children: const [
-                                Icon(Icons.medical_services, color: Colors.white),
-                                SizedBox(height: 8),
-                                Text(
-                                  "Refills",
-                                  style: TextStyle(color: Colors.white),
+                            child: Center(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                                SizedBox(height: 4),
-                                Text(
-                                  "2 Due Soon",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                  ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: const [
+                                    Icon(Icons.medical_information_outlined, color: Colors.green, size: 28),
+                                    SizedBox(height: 8),
+                                    Text(
+                                      "Refills",
+                                      style: TextStyle(
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      "2 Due Soon",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
                           ),
+
                         ),
                       ),
                     ],
@@ -272,31 +309,47 @@ class HomePage extends StatelessWidget {
                               const SnackBar(content: Text('AI Assistant page - Coming Soon!')),
                             );
                           },
+
                           child: Container(
-                            padding: const EdgeInsets.all(12),
+                            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                             decoration: BoxDecoration(
-                              color: Colors.pink[400],
-                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.pink,
+                              borderRadius: BorderRadius.circular(16),
                             ),
-                            child: Column(
-                              children: const [
-                                Icon(Icons.chat, color: Colors.white),
-                                SizedBox(height: 8),
-                                Text(
-                                  "AI Assistant",
-                                  style: TextStyle(color: Colors.white),
+                            child: Center(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                                SizedBox(height: 4),
-                                Text(
-                                  "Ask Anything",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                  ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: const [
+                                    Icon(Icons.chat_bubble_outline_outlined, color: Colors.green, size: 28),
+                                    SizedBox(height: 8),
+                                    Text(
+                                      "AI Assistant",
+                                      style: TextStyle(
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      "Ask Anything",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
                           ),
+
                         ),
                       ),
                       const SizedBox(width: 10),
@@ -309,31 +362,47 @@ class HomePage extends StatelessWidget {
                               MaterialPageRoute(builder: (context) => const EmergencyPage()),
                             );
                           },
+
                           child: Container(
-                            padding: const EdgeInsets.all(12),
+                            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
                             decoration: BoxDecoration(
-                              color: Colors.red[600],
-                              borderRadius: BorderRadius.circular(12),
+                              color: Colors.red,
+                              borderRadius: BorderRadius.circular(16),
                             ),
-                            child: Column(
-                              children: const [
-                                Icon(Icons.warning, color: Colors.white),
-                                SizedBox(height: 8),
-                                Text(
-                                  "EMERGENCY",
-                                  style: TextStyle(color: Colors.white),
+                            child: Center(
+                              child: Container(
+                                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(12),
                                 ),
-                                SizedBox(height: 4),
-                                Text(
-                                  "SOS Help",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 12,
-                                  ),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: const [
+                                    Icon(Icons.warning_amber_outlined, color: Colors.red, size: 28),
+                                    SizedBox(height: 8),
+                                    Text(
+                                      "EMERGENCY",
+                                      style: TextStyle(
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      "SOS Help",
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.grey,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
                           ),
+
                         ),
                       ),
                     ],
