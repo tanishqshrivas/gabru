@@ -1,645 +1,241 @@
 import 'package:flutter/material.dart';
-import 'package:project/appointment_page.dart';
-import 'package:project/refill_page.dart';
-import 'ai_page.dart';
-import 'emergency.dart';
+import 'home_page2.dart'; // QuickAccessSection
+import 'home_page3.dart'; // TodaysMedicationsSection
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF0F8E0),
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        backgroundColor: const Color(0xFFDEF1D8),
-        elevation: 0,
-        titleSpacing: 0,
-        title: Row(
-          children: [
-            IconButton(
-              icon: const Icon(Icons.menu, color: Colors.black),
-              onPressed: () {},
-            ),
-            Image.asset('assets/logo_sanjeevika.jpeg', height: 45),
-            const SizedBox(width: 6),
-            const Text(
-              'Sanjeevika',
-              style: TextStyle(
-                color: Color(0xFF16833D),
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          Container(
-            margin: const EdgeInsets.only(right: 10),
-            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
-            decoration: BoxDecoration(
-              border: Border.all(color: Color(0xFF858585), width: 1),
-              borderRadius: BorderRadius.circular(100),
-              color: Colors.white,
-            ),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Color(0xFF97DF4B), width: 1),
-                  ),
-                  child: const CircleAvatar(
-                    backgroundColor: Colors.white,
-                    child: Icon(Icons.person_outline_outlined, color: Colors.grey),
-                  ),
-                ),
-                const SizedBox(width: 2),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      'John Marshall',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Text(
-                      '70 years old',
-                      style: TextStyle(fontSize: 12),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(width: 16),
-        ],
-      ),
+      appBar: _buildAppBar(),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Center(
-              child:
-              Container(
-                width: double.infinity,
-                margin: const EdgeInsets.symmetric(vertical: 25),
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: const Color(0xFFFFF4F4), // Light pink background
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border(
-                    left: BorderSide(
-                      color: Colors.redAccent,
-                      width: 5,
-                    ),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: const[
-                        Text(
-                          "New Notification!",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.red,
-                            fontSize: 12,
-                          ),
-                        ),
-                        Icon(
-                          Icons.close,
-                          color: Colors.grey,
-                          size: 20,
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 10),
-                    const Text(
-                       "“You missed your morning before-meal tablet.\n         Please take care next time 💊❤️.”",
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.blueGrey,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+            // Notification section
+            _buildNotificationCard(),
 
-            ),
-            const Text(
-              "Today's Medications",
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 10),
-            MedicationCard(
-              timeOfDay: "Morning",
-              medicine: "Amoxicillin",
-              dose: "500 mg",
-              beforeMealStatus: "MISSED ❌",
-              afterMealStatus: "TAKEN ✅",
-              afterMealTime: "11:30 AM",
-              isMissed: true,
-            ),
-            MedicationCard(
-              timeOfDay: "Morning",
-              medicine: "Amoxicillin",
-              dose: "500 mg",
-              beforeMealStatus: "TAKEN ✅",
-              beforeMealTime: "12:30 PM",
-              afterMealStatus: "TAKEN ✅",
-              afterMealTime: "1:30 PM",
-            ),
-            MedicationCard(
-              timeOfDay: "Morning",
-              medicine: "Amoxicillin",
-              dose: "500 mg",
-              showButtons: true,
-            ),
+            // Today's Medications section - now using extracted component
+            const TodaysMedicationsSection(),
 
-
-            // Quick Access Section moved here
             const SizedBox(height: 20),
-            const Text(
-              "QUICK ACCESS",
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const AppointmentPage()),
-                            );
-                          },
 
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                            decoration: BoxDecoration(
-                              color: Colors.blue[600],
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Center(
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: const [
-                                    Icon(Icons.calendar_today_outlined, color: Colors.green, size: 28),
-                                    SizedBox(height: 8),
-                                    Text(
-                                      "Appointments",
-                                      style: TextStyle(
-                                        color: Colors.black87,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    SizedBox(height: 4),
-                                    Text(
-                                      "4 Active",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            // Navigate to Refills page
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const RefillPage()),
-                            );
-                          },
-
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                            decoration: BoxDecoration(
-                              color: Colors.green,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Center(
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: const [
-                                    Icon(Icons.medical_information_outlined, color: Colors.green, size: 28),
-                                    SizedBox(height: 8),
-                                    Text(
-                                      "Refills",
-                                      style: TextStyle(
-                                        color: Colors.black87,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    SizedBox(height: 4),
-                                    Text(
-                                      "2 Due Soon",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-            Row(
-              children: [
-                Expanded(
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const AiPage()),
-                              );
-                          },
-
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                            decoration: BoxDecoration(
-                              color: Colors.pink,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Center(
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: const [
-                                    Icon(Icons.chat_bubble_outline_outlined, color: Colors.green, size: 28),
-                                    SizedBox(height: 8),
-                                    Text(
-                                      "AI Assistant",
-                                      style: TextStyle(
-                                        color: Colors.black87,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    SizedBox(height: 4),
-                                    Text(
-                                      "Ask Anything",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            // Navigate to Emergency page
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const EmergencyPage()),
-                            );
-                          },
-
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
-                            decoration: BoxDecoration(
-                              color: Colors.red,
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            child: Center(
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: const [
-                                    Icon(Icons.warning_amber_outlined, color: Colors.red, size: 28),
-                                    SizedBox(height: 8),
-                                    Text(
-                                      "EMERGENCY",
-                                      style: TextStyle(
-                                        color: Colors.black87,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                    SizedBox(height: 4),
-                                    Text(
-                                      "SOS Help",
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.grey,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ),
-
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+            // Quick Access section - using extracted component
+            const QuickAccessSection(),
           ],
         ),
       ),
     );
   }
-}
 
-class MedicationCard extends StatelessWidget {
-  final String timeOfDay;
-  final String medicine;
-  final String dose;
-  final String? beforeMealStatus;
-  final String? afterMealStatus;
-  final String? beforeMealTime;
-  final String? afterMealTime;
-  final bool isMissed;
-  final bool showButtons;
+  PreferredSizeWidget _buildAppBar() {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      backgroundColor: const Color(0xFFDEF1D8),
+      elevation: 0,
+      titleSpacing: 0,
+      title: Row(
+        children: [
+          IconButton(
+            icon: const Icon(Icons.menu, color: Colors.black),
+            onPressed: () => _handleMenuPressed(),
+          ),
+          _buildAppBarLogo(),
+          const SizedBox(width: 6),
+          _buildAppBarTitle(),
+        ],
+      ),
+      actions: [
+        _buildUserProfile(),
+        const SizedBox(width: 16),
+      ],
+    );
+  }
 
-  const MedicationCard({
-    super.key,
-    required this.timeOfDay,
-    required this.medicine,
-    required this.dose,
-    this.beforeMealStatus,
-    this.afterMealStatus,
-    this.beforeMealTime,
-    this.afterMealTime,
-    this.isMissed = false,
-    this.showButtons = false,
-  });
+  Widget _buildAppBarLogo() {
+    return Image.asset(
+      'assets/logo_sanjeevika.jpeg',
+      height: 45,
+      errorBuilder: (context, error, stackTrace) {
+        return Container(
+          height: 45,
+          width: 45,
+          decoration: BoxDecoration(
+            color: Colors.green.shade100,
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: const Icon(
+            Icons.local_hospital,
+            color: Colors.green,
+            size: 24,
+          ),
+        );
+      },
+    );
+  }
 
-  @override
-  Widget build(BuildContext context) {
-    Color getStatusColor(String status) {
-      if (status.contains("MISSED")) return Colors.red[200]!;
-      if (status.contains("TAKEN")) return Colors.green[300]!;
-      return Colors.grey[200]!;
-    }
+  Widget _buildAppBarTitle() {
+    return const Text(
+      'Sanjeevika',
+      style: TextStyle(
+        color: Color(0xFF16833D),
+        fontWeight: FontWeight.bold,
+        fontSize: 20,
+      ),
+    );
+  }
 
+  Widget _buildUserProfile() {
     return Container(
-      margin: const EdgeInsets.only(bottom: 5),
+      margin: const EdgeInsets.only(right: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4),
+      decoration: BoxDecoration(
+        border: Border.all(color: const Color(0xFF858585), width: 1),
+        borderRadius: BorderRadius.circular(100),
+        color: Colors.white,
+      ),
+      child: Row(
+        children: [
+          _buildUserAvatar(),
+          const SizedBox(width: 8),
+          _buildUserInfo(),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildUserAvatar() {
+    return Container(
       padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(
-          color: isMissed ? Colors.red[100]! : Colors.green[100]!,
+        shape: BoxShape.circle,
+        border: Border.all(color: const Color(0xFF97DF4B), width: 1),
+      ),
+      child: const CircleAvatar(
+        backgroundColor: Colors.white,
+        radius: 18,
+        child: Icon(
+          Icons.person_outline_outlined,
+          color: Colors.grey,
+          size: 20,
         ),
-        boxShadow: const [
+      ),
+    );
+  }
+
+  Widget _buildUserInfo() {
+    return const Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'John Marshall',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 14,
+          ),
+        ),
+        Text(
+          '70 years old',
+          style: TextStyle(
+            fontSize: 12,
+            color: Colors.grey,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildNotificationCard() {
+    return Container(
+      width: double.infinity,
+      margin: const EdgeInsets.symmetric(vertical: 25),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFFF4F4),
+        borderRadius: BorderRadius.circular(12),
+        border: const Border(
+          left: BorderSide(
+            color: Colors.redAccent,
+            width: 5,
+          ),
+        ),
+        boxShadow: [
           BoxShadow(
-            color: Colors.black12,
-            blurRadius: 4,
-            offset: Offset(1, 2),
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
           ),
         ],
       ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(2),
-                decoration: BoxDecoration(
-                  color: Color(0xFFE0FFD9),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Image.asset(
-                  'assets/home_page_image.png',
-                  width: 50,
-                  height: 50,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    timeOfDay,
-                    style: const TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    '$medicine — $dose',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.green,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 10),
-          if (showButtons)
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: EdgeInsets.all(12),
-                    margin: EdgeInsets.only(bottom: 10),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.green.shade100),
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 4,
-                          offset: Offset(1, 2),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        const Text(
-                          "Before Meal",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 10),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.orange,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              padding:
-                              const EdgeInsets.symmetric(vertical: 10),
-                            ),
-                            onPressed: () {},
-                            child: const Text("TAKE NOW"),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(12),
-                    margin: const EdgeInsets.only(bottom: 10),
-
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      border: Border.all(color: Colors.green.shade100),
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: const [
-                        BoxShadow(
-                          color: Colors.black12,
-                          blurRadius: 4,
-                          offset: Offset(1, 2),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      children: [
-                        const Text(
-                          "After Meal",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 10),
-                        SizedBox(
-                          width: double.infinity,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.orange,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8),
-                              ),
-                              padding:
-                              const EdgeInsets.symmetric(vertical: 10),
-                            ),
-                            onPressed: () {},
-                            child: const Text("TAKE NOW"),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            )
-          else
-            Row(
-              children: [
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: getStatusColor(beforeMealStatus ?? ""),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Column(
-                      children: [
-                        const Text("Before Meal"),
-                        Text(beforeMealStatus ?? ""),
-                        if (beforeMealTime != null) Text(beforeMealTime!),
-                      ],
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: getStatusColor(afterMealStatus ?? ""),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Column(
-                      children: [
-                        const Text("After Meal"),
-                        Text(
-                          afterMealStatus ?? "",
-                          style: const TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        if (afterMealTime != null) Text(afterMealTime!),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+          _buildNotificationHeader(),
+          const SizedBox(height: 8),
+          _buildNotificationMessage(),
         ],
       ),
     );
+  }
+
+  Widget _buildNotificationHeader() {
+    return Stack(
+      children: [
+        const Align(
+          alignment: Alignment.center,
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 2),
+            child: Text(
+              "New Notification!",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.red,
+                fontSize: 12,
+              ),
+            ),
+          ),
+        ),
+        Align(
+          alignment: Alignment.topRight,
+          child: GestureDetector(
+            onTap: () => _dismissNotification(),
+            child: const Icon(
+              Icons.close,
+              color: Colors.grey,
+              size: 20,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildNotificationMessage() {
+    return const Text(
+      "You missed your morning before-meal tablet.\nPlease take care next time 💊❤️",
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontSize: 16,
+        fontWeight: FontWeight.w600,
+        color: Colors.blueGrey,
+      ),
+    );
+  }
+
+  // Event handlers
+  void _handleMenuPressed() {
+    // Handle menu button press
+    print('Menu button pressed');
+    // You can implement drawer opening or navigation here
+  }
+
+  void _dismissNotification() {
+    // Handle notification dismissal
+    print('Notification dismissed');
+    // You can implement notification dismissal logic here
   }
 }

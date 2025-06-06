@@ -133,9 +133,9 @@ class _AiPageState extends State<AiPage> {
                     borderRadius: BorderRadius.circular(100),
                   ),
                   child: Icon(
-                    Icons.medical_services_outlined,
+                    Icons.energy_savings_leaf_outlined,
                     size: 120,
-                    color: Colors.white.withOpacity(0.6),
+                    color: Colors.black.withOpacity(0.6),
                   ),
                 ),
               ),
