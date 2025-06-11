@@ -28,11 +28,10 @@ class StartScreen1 extends StatelessWidget {
                 shape: BoxShape.circle,
                 color: Color(0xFFF1F7FE),
               ),
-              child: Image.asset(
-                'assets/screen1.png',
-                width: 100,
-                height: 100,
-                fit: BoxFit.contain,
+              child: Icon(
+                Icons.medication_outlined,
+                color: Color(0xFF2196F3),
+                size: 50,
               ),
             ),
 

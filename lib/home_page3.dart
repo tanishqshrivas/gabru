@@ -206,14 +206,14 @@ class MedicationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.all(12),
       decoration: _buildCardDecoration(),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildMedicationHeader(),
-          const SizedBox(height: 16),
+          const SizedBox(height: 10),
           _buildMedicationStatus(),
         ],
       ),
@@ -223,12 +223,12 @@ class MedicationCard extends StatelessWidget {
   BoxDecoration _buildCardDecoration() {
     return BoxDecoration(
       color: Colors.white,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(12),
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withOpacity(0.05),
-          blurRadius: 8,
-          offset: const Offset(0, 2),
+          color: Colors.black.withOpacity(0.04),
+          blurRadius: 6,
+          offset: const Offset(0, 1),
         ),
       ],
     );
@@ -239,7 +239,7 @@ class MedicationCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildMedicationIcon(),
-        const SizedBox(width: 12),
+        const SizedBox(width: 10),
         _buildMedicationInfo(),
       ],
     );
@@ -247,14 +247,14 @@ class MedicationCard extends StatelessWidget {
 
   Widget _buildMedicationIcon() {
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding: const EdgeInsets.all(6),
       decoration: BoxDecoration(
         color: const Color(0xFFE8F5E8),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: const Icon(
         Icons.medication,
-        size: 40,
+        size: 30,
         color: Colors.green,
       ),
     );
@@ -269,17 +269,17 @@ class MedicationCard extends StatelessWidget {
             timeOfDay,
             style: const TextStyle(
               fontWeight: FontWeight.w600,
-              fontSize: 16,
+              fontSize: 14,
               color: Colors.black87,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 2),
           Text(
             '$medicine — $dose',
             style: TextStyle(
               fontWeight: FontWeight.w600,
               color: Colors.green.shade700,
-              fontSize: 14,
+              fontSize: 13,
             ),
           ),
         ],
@@ -298,7 +298,7 @@ class MedicationCard extends StatelessWidget {
             onTakeNow: () => onMedicationTaken(beforeMealKey),
           ),
         ),
-        const SizedBox(width: 12),
+        const SizedBox(width: 8),
         Expanded(
           child: _buildMedicationTile(
             title: "After Meal",
@@ -317,7 +317,6 @@ class MedicationCard extends StatelessWidget {
     required String scheduledTime,
     required VoidCallback onTakeNow,
   }) {
-    // Check if current time has passed the scheduled time
     final now = TimeOfDay.now();
     final isTimePassed = _isTimePassed(now, status.scheduledTime);
 
@@ -325,169 +324,79 @@ class MedicationCard extends StatelessWidget {
     Color borderColor;
     Widget statusWidget;
 
-    // If time has passed and status is still pending, show as missed
     if (status.status == MedicationStatusType.pending && isTimePassed) {
-      // Missed status - no button, just display missed
       backgroundColor = Colors.red.shade100;
       borderColor = Colors.red;
-      statusWidget = Column(
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: 14,
-              color: Colors.black87,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'MISSED ❌',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 14,
-              color: Colors.red.shade700,
-            ),
-          ),
-          Text(
-            'Due: $scheduledTime',
-            style: TextStyle(
-              fontSize: 12,
-              color: Colors.grey.shade600,
-            ),
-          ),
-        ],
-      );
+      statusWidget = _buildStatusText(title, 'MISSED ❌', Colors.red.shade700, scheduledTime);
     } else {
-      // Handle normal status cases
       switch (status.status) {
         case MedicationStatusType.pending:
-        // Pending status - show button (only when time hasn't passed)
           backgroundColor = Colors.orange.shade100;
           borderColor = Colors.orange;
           statusWidget = Column(
             children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                  color: Colors.black87,
+              Text(title, style: _titleStyle()),
+              Text('Due: $scheduledTime', style: _timeStyle()),
+              const SizedBox(height: 6),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 6),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
+                  minimumSize: const Size.fromHeight(30),
                 ),
-              ),
-              Text(
-                'Due: $scheduledTime',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey.shade600,
-                ),
-              ),
-              const SizedBox(height: 8),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange,
-                    foregroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 8),
-                    elevation: 2,
-                  ),
-                  onPressed: onTakeNow,
-                  child: const Text(
-                    'TAKE NOW',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 11,
-                    ),
-                  ),
-                ),
+                onPressed: onTakeNow,
+                child: const Text('TAKE NOW', style: TextStyle(fontSize: 11)),
               ),
             ],
           );
           break;
         case MedicationStatusType.taken:
-        // Taken status
           backgroundColor = Colors.green.shade100;
           borderColor = Colors.green;
           statusWidget = Column(
             children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                  color: Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'TAKEN ✅',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                  color: Colors.green.shade700,
-                ),
-              ),
+              Text(title, style: _titleStyle()),
+              const SizedBox(height: 6),
+              Text('TAKEN ✅', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Colors.green.shade700)),
               if (status.takenTime != null)
-                Text(
-                  'at ${_formatTime(status.takenTime!)}',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey.shade600,
-                  ),
-                ),
+                Text('at ${_formatTime(status.takenTime!)}', style: _timeStyle()),
             ],
           );
           break;
         case MedicationStatusType.missed:
-        // Missed status (when explicitly marked as missed)
           backgroundColor = Colors.red.shade100;
           borderColor = Colors.red;
-          statusWidget = Column(
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: 14,
-                  color: Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'MISSED ❌',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
-                  color: Colors.red.shade700,
-                ),
-              ),
-              Text(
-                'Due: $scheduledTime',
-                style: TextStyle(
-                  fontSize: 12,
-                  color: Colors.grey.shade600,
-                ),
-              ),
-            ],
-          );
+          statusWidget = _buildStatusText(title, 'MISSED ❌', Colors.red.shade700, scheduledTime);
           break;
       }
     }
 
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(10),
         border: Border.all(color: borderColor),
       ),
       child: statusWidget,
     );
   }
+
+  Widget _buildStatusText(String title, String status, Color color, String scheduledTime) {
+    return Column(
+      children: [
+        Text(title, style: _titleStyle()),
+        const SizedBox(height: 6),
+        Text(status, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: color)),
+        Text('Due: $scheduledTime', style: _timeStyle()),
+      ],
+    );
+  }
+
+  TextStyle _titleStyle() => const TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: Colors.black87);
+  TextStyle _timeStyle() => TextStyle(fontSize: 11, color: Colors.grey.shade600);
 
   bool _isTimePassed(TimeOfDay current, TimeOfDay scheduled) {
     final currentMinutes = current.hour * 60 + current.minute;

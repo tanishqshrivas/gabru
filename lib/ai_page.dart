@@ -12,8 +12,7 @@ class _AiPageState extends State<AiPage> {
 
   final List<ChatMessage> _messages = [
     ChatMessage(
-      text:
-      "Hello! Welcome to Sanjeevika App. I'm your AI health assistant.\n How can I help you today?",
+      text: "Hello! Welcome to Sanjeevika App. I'm your AI health assistant.\nHow can I help you today?",
       isBot: true,
       time: "11:51 PM",
     ),
@@ -33,12 +32,10 @@ class _AiPageState extends State<AiPage> {
 
     _messageController.clear();
 
-    // Simulate bot reply
     Future.delayed(const Duration(seconds: 1), () {
       setState(() {
         _messages.add(ChatMessage(
-          text:
-          "Thanks for your message! I'm here to help with your health queries.",
+          text: "Thanks for your message! I'm here to help with your health queries.",
           isBot: true,
           time: _getCurrentTime(),
         ));
@@ -57,29 +54,25 @@ class _AiPageState extends State<AiPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFCFEDD1),
+      backgroundColor: const Color(0xFFECFFE2),
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-          leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () => Navigator.pop(context),
-          ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Color(0xFF2C2C2C)),
+          onPressed: () => Navigator.pop(context),
+        ),
         titleSpacing: -5,
         title: Row(
           children: [
             Container(
               width: 32,
               height: 32,
-             decoration: BoxDecoration(
+              decoration: BoxDecoration(
                 color: const Color(0xFF4CAF50),
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: const Icon(
-                Icons.chat_bubble_outline_outlined,
-                color: Colors.white,
-                size: 18,
-              ),
+              child: const Icon(Icons.chat_bubble_outline_outlined, color: Colors.white, size: 18),
             ),
             const SizedBox(width: 10),
             Column(
@@ -88,7 +81,7 @@ class _AiPageState extends State<AiPage> {
                 Text(
                   'Sanjeevika AI Chat Assistant',
                   style: TextStyle(
-                    color: Colors.black,
+                    color: Color(0xFF003313),
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
                   ),
@@ -96,7 +89,7 @@ class _AiPageState extends State<AiPage> {
                 Text(
                   '• Online',
                   style: TextStyle(
-                    color: Colors.green,
+                    color: Color(0xFF4FB700),
                     fontSize: 11,
                     fontWeight: FontWeight.w500,
                   ),
@@ -120,7 +113,7 @@ class _AiPageState extends State<AiPage> {
             ),
           ),
 
-          // Show large icon when only intro message is present
+          // Center logo image when only intro message is shown
           if (_messages.length <= 1)
             Expanded(
               flex: 2,
@@ -132,10 +125,12 @@ class _AiPageState extends State<AiPage> {
                     color: Colors.white.withOpacity(0.3),
                     borderRadius: BorderRadius.circular(100),
                   ),
-                  child: Icon(
-                    Icons.energy_savings_leaf_outlined,
-                    size: 120,
-                    color: Colors.black.withOpacity(0.6),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: Image.asset(
+                      'assets/logo_image.png',
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
               ),
@@ -151,31 +146,55 @@ class _AiPageState extends State<AiPage> {
             child: SafeArea(
               child: Row(
                 children: [
-                  _buildIconButton(Icons.photo_library_outlined,isPrimary: true),
+                  _buildIconButton(
+                    Icons.photo_library_outlined,
+                    backgroundColor: const Color(0xFFBBF7D0),
+                    borderColor: const Color(0xFF02A820),
+                    iconColor: const Color(0xFF02A820),
+                  ),
                   const SizedBox(width: 12),
+
                   Expanded(
                     child: Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(25),
-                        border: Border.all(color: Color(0xFF97DF4B), width: 1),
+                        border: Border.all(color: Color(0xFFBBF7D0), width: 1),
                       ),
-                      child: TextField(
-                        controller: _messageController,
-                        decoration: const InputDecoration(
-                          hintText: 'Type your message...',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          border: InputBorder.none,
-                        ),
-                        onSubmitted: (_) => _sendMessage(),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: TextField(
+                              controller: _messageController,
+                              decoration: const InputDecoration(
+                                hintText: 'Type your message...',
+                                hintStyle: TextStyle(color: Color(0xFF919191)),
+                                border: InputBorder.none,
+                              ),
+                              onSubmitted: (_) => _sendMessage(),
+                            ),
+                          ),
+                          _buildIconButton(
+                            Icons.mic_none,
+                            size: 30,
+                            borderColor: const Color(0xFFBBF7D0),
+                            backgroundColor: Colors.white,
+                            iconColor: Colors.green,
+                          ),
+                        ],
                       ),
                     ),
                   ),
-                  const SizedBox(width: 12),
-                  _buildIconButton(Icons.mic_none,),
+
                   const SizedBox(width: 8),
-                  _buildIconButton(Icons.send_outlined, isPrimary: true, onPressed: _sendMessage),
+                  _buildIconButton(
+                    Icons.send_outlined,
+                    backgroundColor: const Color(0xFFBBF7D0),
+                    borderColor: const Color(0xFF02A820),
+                    iconColor: const Color(0xFF02A820),
+                    onPressed: _sendMessage,
+                  ),
                 ],
               ),
             ),
@@ -185,21 +204,29 @@ class _AiPageState extends State<AiPage> {
     );
   }
 
-  Widget _buildIconButton(IconData icon,
-      {bool isPrimary = false, void Function()? onPressed}) {
+  Widget _buildIconButton(
+      IconData icon, {
+        Color backgroundColor = const Color(0xFFE8F5E8),
+        Color borderColor = Colors.transparent,
+        Color iconColor = Colors.grey,
+        double size = 25,
+        void Function()? onPressed,
+      }) {
     return Container(
       width: 40,
       height: 40,
       decoration: BoxDecoration(
-        color: isPrimary ? const Color(0xFF4CAF50) : const Color(0xFFE8F5E8),
+        color: backgroundColor,
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: borderColor),
       ),
       child: IconButton(
-        icon: Icon(icon, color: isPrimary ? Colors.white : Colors.grey, size: 25),
+        icon: Icon(icon, color: iconColor, size: size),
         onPressed: onPressed ?? () {},
       ),
     );
   }
+
 }
 
 class ChatMessage {
@@ -237,18 +264,14 @@ class ChatBubble extends StatelessWidget {
                     color: const Color(0xFF4CAF50),
                     borderRadius: BorderRadius.circular(16),
                   ),
-                  child: const Icon(
-                    Icons.chat_bubble_outline_outlined,
-                    color: Colors.white,
-                    size: 18,
-                  ),
+                  child: const Icon(Icons.chat_bubble_outline_outlined, color: Colors.white, size: 15),
                 ),
                 const SizedBox(width: 4),
                 const Text(
                   'AI Assistant',
                   style: TextStyle(
                     fontSize: 11,
-                    color: Colors.grey,
+                    color: Color(0xFF6F6F6F),
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -256,48 +279,42 @@ class ChatBubble extends StatelessWidget {
             ),
           const SizedBox(height: 4),
           Row(
-            mainAxisAlignment: message.isBot
-                ? MainAxisAlignment.start
-                : MainAxisAlignment.end,
+            mainAxisAlignment: message.isBot ? MainAxisAlignment.start : MainAxisAlignment.end,
             children: [
               Flexible(
-                child: Container(
-                  padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                  decoration: BoxDecoration(
-                    color:
-                    message.isBot ? Colors.white : const Color(0xFF4CAF50),
-                    borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 5,
-                        offset: const Offset(0, 2),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                      decoration: BoxDecoration(
+                        color: message.isBot ? Colors.white : const Color(0xFF4CAF50),
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.05),
+                            blurRadius: 5,
+                            offset: const Offset(0, 2),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
+                      child: Text(
                         message.text,
                         style: TextStyle(
                           color: message.isBot ? Colors.black87 : Colors.white,
                           fontSize: 14,
                         ),
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        message.time,
-                        style: TextStyle(
-                          color: message.isBot
-                              ? Colors.grey
-                              : Colors.white.withOpacity(0.8),
-                          fontSize: 10,
-                        ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      message.time,
+                      style: const TextStyle(
+                        fontSize: 10,
+                        color: Colors.grey,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -307,3 +324,4 @@ class ChatBubble extends StatelessWidget {
     );
   }
 }
+

@@ -28,7 +28,10 @@ class StartScreen2 extends StatelessWidget {
                 shape: BoxShape.circle,
                 color: Colors.transparent,
               ),
-              child: Image.asset('assets/screen2.png'),
+              child: Icon( Icons.chat_bubble_outline_outlined,
+              color: Color(0xFF22C55E),
+              size: 50,
+              ),
             ),
 
             SizedBox(height: 12),

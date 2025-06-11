@@ -71,6 +71,7 @@ flutter:
     - assets/screen3.png
     - assets/home_page_image.png
     - assets/doctor_image.jpeg
+    - assets/logo_image.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

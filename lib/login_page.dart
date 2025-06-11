@@ -41,7 +41,7 @@ class LoginPage extends StatelessWidget {
               child: Column(
                 children: [
                   Image.asset(
-                    'assets/logo_sanjeevika.jpeg',
+                    'assets/logo_image.png',
                     width: 100,
                     height: 100,
                   ),

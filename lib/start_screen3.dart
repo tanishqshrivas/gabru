@@ -21,11 +21,7 @@ class StartScreen3 extends StatelessWidget {
             Spacer(flex: 3),
 
             // Replaced shield icon with uploaded image
-            Image.asset(
-              'assets/screen3.png',
-              width: 100,
-              height: 100,
-            ),
+            Icon(Icons.shield_outlined, color: Colors.red[600], size: 50),
 
             SizedBox(height: 12),
 
