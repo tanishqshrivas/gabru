@@ -19,7 +19,7 @@ class AppointmentPage extends StatelessWidget {
         title: const Text(
           'Appointments',
           style: TextStyle(
-            color: Color(0xFF015A1B),
+            color: Color(0xFF005014),
             fontWeight: FontWeight.bold,
             fontSize: 24,
           ),
@@ -34,8 +34,8 @@ class AppointmentPage extends StatelessWidget {
             const Text(
               'Active Consultations - 4',
               style: TextStyle(
-                fontSize: 18,
-                color: Colors.grey,
+                fontSize: 20,
+                color: Color(0xFF4B4B4B),
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -332,7 +332,8 @@ class AppointmentCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black54,
+                          color: Color(0xFF3F3F3F),
+
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -359,7 +360,7 @@ class AppointmentCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black54,
+                          color: Color(0xFF3F3F3F),
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -384,7 +385,7 @@ class AppointmentCard extends StatelessWidget {
                 _showConfirmationDialog(context);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF4CAF50),
+                backgroundColor: const Color(0xFF22C55E),
                 padding: const EdgeInsets.symmetric(vertical: 12),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),

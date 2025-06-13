@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'home_page2.dart'; // QuickAccessSection
 import 'home_page3.dart'; // TodaysMedicationsSection
+import 'side_bar.dart'; // CustomSideBar
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,8 +11,9 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFFF0F8E0),
       appBar: _buildAppBar(),
+      drawer: const CustomSideBar(), // Using the custom sidebar
       body: SingleChildScrollView(
-        padding: const EdgeInsets.only(left: 16,right: 16,bottom: 1),
+        padding: const EdgeInsets.only(left: 16, right: 16, bottom: 1),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -20,7 +22,6 @@ class HomePage extends StatelessWidget {
               padding: const EdgeInsets.only(top: 2),
               child: _buildNotificationCard(),
             ),
-
 
             // Today's Medications section - now using extracted component
             const TodaysMedicationsSection(),
@@ -35,19 +36,14 @@ class HomePage extends StatelessWidget {
     );
   }
 
-
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      automaticallyImplyLeading: false,
+      automaticallyImplyLeading: true, // Shows hamburger menu button
       backgroundColor: const Color(0xFFDEF1D8),
       elevation: 0,
       titleSpacing: 0,
       title: Row(
         children: [
-          IconButton(
-            icon: const Icon(Icons.menu, color: Colors.black),
-            onPressed: () => _handleMenuPressed(),
-          ),
           _buildAppBarLogo(),
           const SizedBox(width: 6),
           const Text(
@@ -58,7 +54,7 @@ class HomePage extends StatelessWidget {
               fontSize: 20,
             ),
           ),
-          const Spacer(), // 👈 Adds flexible space between title and user profile
+          const Spacer(), // Adds flexible space between title and user profile
         ],
       ),
       actions: [
@@ -67,7 +63,6 @@ class HomePage extends StatelessWidget {
       ],
     );
   }
-
 
   Widget _buildAppBarLogo() {
     return Image.asset(
@@ -90,18 +85,6 @@ class HomePage extends StatelessWidget {
       },
     );
   }
-
-  Widget _buildAppBarTitle() {
-    return const Text(
-      'Sanjeevika',
-      style: TextStyle(
-        color: Color(0xFF16833D),
-        fontWeight: FontWeight.bold,
-        fontSize: 20,
-      ),
-    );
-  }
-
 
   Widget _buildUserProfile() {
     return Container(
@@ -131,16 +114,15 @@ class HomePage extends StatelessWidget {
       ),
       child: const CircleAvatar(
         backgroundColor: Colors.white,
-        radius: 14, // 👈 smaller avatar
+        radius: 14,
         child: Icon(
           Icons.person_outline_outlined,
           color: Colors.grey,
-          size: 16, // 👈 smaller icon
+          size: 16,
         ),
       ),
     );
   }
-
 
   Widget _buildUserInfo() {
     return const Column(
@@ -168,8 +150,8 @@ class HomePage extends StatelessWidget {
   Widget _buildNotificationCard() {
     return Container(
       width: double.infinity,
-      margin: const EdgeInsets.symmetric(vertical:15),
-      padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 15),
+      margin: const EdgeInsets.symmetric(vertical: 15),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
       decoration: BoxDecoration(
         color: const Color(0xFFFFF4F4),
         borderRadius: BorderRadius.circular(12),
@@ -243,15 +225,7 @@ class HomePage extends StatelessWidget {
   }
 
   // Event handlers
-  void _handleMenuPressed() {
-    // Handle menu button press
-    print('Menu button pressed');
-    // You can implement drawer opening or navigation here
-  }
-
   void _dismissNotification() {
-    // Handle notification dismissal
     print('Notification dismissed');
-    // You can implement notification dismissal logic here
   }
 }

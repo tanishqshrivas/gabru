@@ -229,9 +229,9 @@ class _RefillPageState extends State<RefillPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF0F8E0),
+      backgroundColor: const Color(0xFFF7FFEE),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF4CAF50),
+        backgroundColor: const Color(0xFF22C55E),
         elevation: 0,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back, color: Colors.white),
@@ -270,7 +270,7 @@ class _RefillPageState extends State<RefillPage> {
                 color: const Color(0xFFF0F8E0),
                 child: Row(
                   children: const [
-                    Icon(Icons.local_pharmacy_outlined, color: Color(0xFF4CAF50)),
+                    Icon(Icons.local_pharmacy_outlined, color: Color(0xFF4ACA00)),
                     SizedBox(width: 8),
                     Text(
                       'All Prescribed Medicines',
@@ -312,7 +312,7 @@ class _RefillPageState extends State<RefillPage> {
                             ),
                             child: const Icon(
                               Icons.medication_outlined,
-                              color: Color(0xFF2196F3),
+                              color: Color(0xFF0066FF),
                               size: 24,
                             ),
                           ),
@@ -334,7 +334,7 @@ class _RefillPageState extends State<RefillPage> {
                                   'Blood Pressure · 1 tablet daily',
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: Colors.grey,
+                                    color: Color(0xFF474747),
                                   ),
                                 ),
                               ],
@@ -350,14 +350,14 @@ class _RefillPageState extends State<RefillPage> {
                                 vertical: 6,
                               ),
                               decoration: BoxDecoration(
-                                color: Colors.grey[100],
+                                color: Colors.white,
                                 borderRadius: BorderRadius.circular(6),
                               ),
                               child: const Text(
                                 'Tap to order',
                                 style: TextStyle(
                                   fontSize: 15,
-                                  color: Colors.grey,
+                                  color: Color(0xFF626262),
                                 ),
                               ),
                             ),
@@ -365,7 +365,7 @@ class _RefillPageState extends State<RefillPage> {
                           const SizedBox(width: 50),
                           const Icon(
                             Icons.medical_information_outlined,
-                            color: Color(0xFF2196F3),
+                            color: Color(0xFF0066FF),
                             size: 30,
                           ),
                         ],
@@ -385,7 +385,7 @@ class _RefillPageState extends State<RefillPage> {
               child: Container(
                 padding: const EdgeInsets.all(16),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF4CAF50),
+                  color: const Color(0xFF17C300),
                   borderRadius: BorderRadius.circular(12),
                   boxShadow: [
                     BoxShadow(
@@ -405,8 +405,8 @@ class _RefillPageState extends State<RefillPage> {
                       ),
                       child: const Icon(
                         Icons.check,
-                        color: Color(0xFF4CAF50),
-                        size: 20,
+                        color: Color(0xFF45B925),
+                        size: 25,
                       ),
                     ),
                     const SizedBox(width: 12),
