@@ -42,7 +42,7 @@ class QuickAccessSection extends StatelessWidget {
           "Quick Access",
           style: TextStyle(
               fontSize: 20,
-              fontWeight: FontWeight.bold
+              fontWeight: FontWeight.w600
           ),
         ),
       ),
@@ -55,7 +55,7 @@ class QuickAccessSection extends StatelessWidget {
         Expanded(
           child: _buildQuickAccessCard(
             context: context,
-            backgroundColor: Colors.blue.shade600,
+            backgroundColor: Color(0xFF160DFF),
             icon: Icons.calendar_today_outlined,
             title: "Appointments",
             subtitle: "4 Active",
@@ -66,7 +66,7 @@ class QuickAccessSection extends StatelessWidget {
         Expanded(
           child: _buildQuickAccessCard(
             context: context,
-            backgroundColor: Colors.green,
+            backgroundColor: Color(0xFF00C907),
             icon: Icons.medical_information_outlined,
             title: "Refills",
             subtitle: "2 Due Soon",
@@ -83,7 +83,7 @@ class QuickAccessSection extends StatelessWidget {
         Expanded(
           child: _buildQuickAccessCard(
             context: context,
-            backgroundColor: Colors.pink,
+            backgroundColor: Color(0xFFFF00E5),
             icon: Icons.chat_bubble_outline_outlined,
             title: "AI Assistant",
             subtitle: "Ask Anything",
@@ -94,7 +94,7 @@ class QuickAccessSection extends StatelessWidget {
         Expanded(
           child: _buildQuickAccessCard(
             context: context,
-            backgroundColor: Colors.red,
+            backgroundColor: Color(0xFFFF0000),
             icon: Icons.warning_amber_outlined,
             iconColor: Colors.red,
             title: "EMERGENCY",

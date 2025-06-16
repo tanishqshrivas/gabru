@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
 class AiPage extends StatefulWidget {
   const AiPage({super.key});
@@ -9,6 +11,7 @@ class AiPage extends StatefulWidget {
 
 class _AiPageState extends State<AiPage> {
   final TextEditingController _messageController = TextEditingController();
+  final ImagePicker _picker = ImagePicker();
 
   final List<ChatMessage> _messages = [
     ChatMessage(
@@ -43,9 +46,77 @@ class _AiPageState extends State<AiPage> {
     });
   }
 
+  Future<void> _pickImage() async {
+    try {
+      // Show dialog to choose between camera and gallery
+      final ImageSource? source = await showDialog<ImageSource>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Select Image Source'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ListTile(
+                  leading: const Icon(Icons.photo_library),
+                  title: const Text('Gallery'),
+                  onTap: () => Navigator.pop(context, ImageSource.gallery),
+                ),
+                ListTile(
+                  leading: const Icon(Icons.camera_alt),
+                  title: const Text('Camera'),
+                  onTap: () => Navigator.pop(context, ImageSource.camera),
+                ),
+              ],
+            ),
+          );
+        },
+      );
+
+      if (source != null) {
+        final XFile? image = await _picker.pickImage(
+          source: source,
+          maxWidth: 1024,
+          maxHeight: 1024,
+          imageQuality: 85,
+        );
+
+        if (image != null) {
+          setState(() {
+            _messages.add(ChatMessage(
+              text: "Image shared",
+              isBot: false,
+              time: _getCurrentTime(),
+              imagePath: image.path,
+            ));
+          });
+
+          // Simulate AI response to image
+          Future.delayed(const Duration(seconds: 2), () {
+            setState(() {
+              _messages.add(ChatMessage(
+                text: "I can see the image you've shared! How can I help you analyze or discuss this image?",
+                isBot: true,
+                time: _getCurrentTime(),
+              ));
+            });
+          });
+        }
+      }
+    } catch (e) {
+      // Handle error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error picking image: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
   String _getCurrentTime() {
     final now = DateTime.now();
-    final hour = now.hour > 12 ? now.hour - 12 : now.hour;
+    final hour = now.hour > 12 ? now.hour - 12 : (now.hour == 0 ? 12 : now.hour);
     final minute = now.minute.toString().padLeft(2, '0');
     final period = now.hour >= 12 ? 'PM' : 'AM';
     return "$hour:$minute $period";
@@ -151,6 +222,7 @@ class _AiPageState extends State<AiPage> {
                     backgroundColor: const Color(0xFFBBF7D0),
                     borderColor: const Color(0xFF02A820),
                     iconColor: const Color(0xFF02A820),
+                    onPressed: _pickImage,
                   ),
                   const SizedBox(width: 12),
 
@@ -226,18 +298,19 @@ class _AiPageState extends State<AiPage> {
       ),
     );
   }
-
 }
 
 class ChatMessage {
   final String text;
   final bool isBot;
   final String time;
+  final String? imagePath;
 
   ChatMessage({
     required this.text,
     required this.isBot,
     required this.time,
+    this.imagePath,
   });
 }
 
@@ -298,12 +371,31 @@ class ChatBubble extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: Text(
-                        message.text,
-                        style: TextStyle(
-                          color: message.isBot ? Colors.black87 : Colors.white,
-                          fontSize: 14,
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Display image if present
+                          if (message.imagePath != null) ...[
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.file(
+                                File(message.imagePath!),
+                                width: 200,
+                                height: 200,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                          ],
+                          // Display text
+                          Text(
+                            message.text,
+                            style: TextStyle(
+                              color: message.isBot ? Colors.black87 : Colors.white,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -324,4 +416,3 @@ class ChatBubble extends StatelessWidget {
     );
   }
 }
-

@@ -278,7 +278,7 @@ class MedicationCard extends StatelessWidget {
             '$medicine — $dose',
             style: TextStyle(
               fontWeight: FontWeight.w600,
-              color: Colors.green.shade700,
+              color: Color(0xFF22C55E),
               fontSize: 13,
             ),
           ),
@@ -325,14 +325,14 @@ class MedicationCard extends StatelessWidget {
     Widget statusWidget;
 
     if (status.status == MedicationStatusType.pending && isTimePassed) {
-      backgroundColor = Colors.red.shade100;
-      borderColor = Colors.red;
-      statusWidget = _buildStatusText(title, 'MISSED ❌', Colors.red.shade700, scheduledTime);
+      backgroundColor = Color(0xFFFFDFDF);
+      borderColor = Color(0xFFFCA5A5);
+      statusWidget = _buildStatusText(title, 'MISSED ❌', Color(0xFFFF0000), scheduledTime);
     } else {
       switch (status.status) {
         case MedicationStatusType.pending:
-          backgroundColor = Colors.orange.shade100;
-          borderColor = Colors.orange;
+          backgroundColor = Color(0xFFFFEFD7);
+          borderColor = Color(0xFFFDBA74);
           statusWidget = Column(
             children: [
               Text(title, style: _titleStyle()),
@@ -340,7 +340,7 @@ class MedicationCard extends StatelessWidget {
               const SizedBox(height: 6),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
+                  backgroundColor: Color(0xFFF86D1C),
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 6),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
@@ -353,13 +353,13 @@ class MedicationCard extends StatelessWidget {
           );
           break;
         case MedicationStatusType.taken:
-          backgroundColor = Colors.green.shade100;
-          borderColor = Colors.green;
+          backgroundColor = Color(0xFFB7FF80);
+          borderColor = Color(0xFF86EFAC);
           statusWidget = Column(
             children: [
               Text(title, style: _titleStyle()),
               const SizedBox(height: 6),
-              Text('TAKEN ✅', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: Colors.green.shade700)),
+              Text('TAKEN ✅', style: TextStyle(fontWeight: FontWeight.w500, fontSize: 13, color: Color(0xFF1C4600))),
               if (status.takenTime != null)
                 Text('at ${_formatTime(status.takenTime!)}', style: _timeStyle()),
             ],

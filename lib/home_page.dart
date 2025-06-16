@@ -9,7 +9,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF0F8E0),
+      backgroundColor: const Color(0xFFF7FFEE),
       appBar: _buildAppBar(),
       drawer: const CustomSideBar(), // Using the custom sidebar
       body: SingleChildScrollView(
@@ -38,23 +38,24 @@ class HomePage extends StatelessWidget {
 
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      automaticallyImplyLeading: true, // Shows hamburger menu button
-      backgroundColor: const Color(0xFFDEF1D8),
+      automaticallyImplyLeading: true,
+      backgroundColor: const Color(0xFFE5FFE5),
       elevation: 0,
-      titleSpacing: 0,
+      titleSpacing: -10, // no extra spacing before logo
       title: Row(
         children: [
+          const SizedBox(width: 4), // tighter spacing near the sidebar icon
           _buildAppBarLogo(),
-          const SizedBox(width: 6),
+          const SizedBox(width: 4),
           const Text(
             'Sanjeevika',
             style: TextStyle(
-              color: Color(0xFF16833D),
-              fontWeight: FontWeight.bold,
-              fontSize: 20,
+              color: Color(0xFF005014),
+              fontWeight: FontWeight.w400,
+              fontSize: 25,
             ),
           ),
-          const Spacer(), // Adds flexible space between title and user profile
+          const Spacer(),
         ],
       ),
       actions: [
@@ -64,10 +65,12 @@ class HomePage extends StatelessWidget {
     );
   }
 
+
   Widget _buildAppBarLogo() {
     return Image.asset(
       'assets/logo_image.png',
-      height: 45,
+      height: 54,
+      width: 57,
       errorBuilder: (context, error, stackTrace) {
         return Container(
           height: 45,
@@ -86,24 +89,54 @@ class HomePage extends StatelessWidget {
     );
   }
 
+
   Widget _buildUserProfile() {
     return Container(
-      margin: const EdgeInsets.only(right: 6),
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      margin: const EdgeInsets.only(right: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6), // more height
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFF858585), width: 1),
-        borderRadius: BorderRadius.circular(100),
-        color: Colors.white,
+        color: const Color(0xFFE8FAE7), // soft green
+        border: Border.all(color: const Color(0xFF97DF4B), width: 1),
+        borderRadius: BorderRadius.circular(50),
       ),
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          _buildUserAvatar(),
+          ClipOval(
+            child: Image.asset(
+              'assets/profile_image.png',
+              width: 28,
+              height: 28,
+              fit: BoxFit.cover,
+            ),
+          ),
           const SizedBox(width: 6),
-          _buildUserInfo(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: const [
+              Text(
+                'John Marshall',
+                style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 13,
+                  color: Color(0xFF003313),
+                ),
+              ),
+              Text(
+                '70 years old',
+                style: TextStyle(
+                  fontSize: 11,
+                  color: Color(0xFF5C5C5C),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
     );
   }
+
+
 
   Widget _buildUserAvatar() {
     return Container(
@@ -118,7 +151,7 @@ class HomePage extends StatelessWidget {
         child: Icon(
           Icons.person_outline_outlined,
           color: Colors.grey,
-          size: 16,
+          size: 30,
         ),
       ),
     );
@@ -134,13 +167,14 @@ class HomePage extends StatelessWidget {
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 14,
+            color: Color(0xFF003313),
           ),
         ),
         Text(
           '70 years old',
           style: TextStyle(
             fontSize: 12,
-            color: Colors.grey,
+            color: Color(0xFF494949),
           ),
         ),
       ],
@@ -190,9 +224,9 @@ class HomePage extends StatelessWidget {
             child: Text(
               "New Notification!",
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.red,
-                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFFBF1818),
+                fontSize: 10,
               ),
             ),
           ),
@@ -214,12 +248,12 @@ class HomePage extends StatelessWidget {
 
   Widget _buildNotificationMessage() {
     return const Text(
-      " You missed your morning before-meal tablet.\nPlease take care next time 💊❤️. ",
+    " You missed your morning before-meal tablet. Please take care next time 💊❤️. ",
       textAlign: TextAlign.center,
       style: TextStyle(
-        fontSize: 16,
-        fontWeight: FontWeight.w600,
-        color: Colors.blueGrey,
+        fontSize: 15,
+        fontWeight: FontWeight.w500,
+        color: Color(0xFF454545),
       ),
     );
   }
