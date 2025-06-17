@@ -7,6 +7,8 @@ import 'package:project/start_screen1.dart';
 import 'package:project/start_screen2.dart';
 import 'package:project/start_screen3.dart';
 
+import 'information_form.dart';
+
 
 void main() {
   runApp(MyApp());
@@ -24,6 +26,7 @@ class MyApp extends StatelessWidget {
         '/start3': (context) => StartScreen3(),
         '/sign_in': (context) => LoginPage(),
         '/home': (context) => HomePage(),
+        '/information-form': (context) => InformationForm(),
       },
     );
   }

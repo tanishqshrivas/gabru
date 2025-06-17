@@ -8,7 +8,8 @@ class LoginPage extends StatelessWidget {
       final GoogleSignIn googleSignIn = GoogleSignIn(scopes: ['email']);
       final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
       if (googleUser != null) {
-        // TODO: Navigate to home screen or handle user data
+        // Navigate to information form after successful sign-in
+        Navigator.pushReplacementNamed(context, '/information-form');
       }
     } catch (error) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -87,7 +88,7 @@ class LoginPage extends StatelessWidget {
             Center(
               child: ElevatedButton.icon(
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/home');
+                  Navigator.pushReplacementNamed(context, '/information-form');
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.white,
