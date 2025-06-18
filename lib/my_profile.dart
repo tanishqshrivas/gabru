@@ -903,7 +903,6 @@ class _MyProfilePageState extends State<MyProfilePage>
       ),
     );
   }
-
   bool _isValidEmail(String email) {
     return RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(email);
   }

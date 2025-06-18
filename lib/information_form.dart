@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
 
 class InformationForm extends StatefulWidget {
   @override
@@ -10,12 +12,15 @@ class _InformationFormState extends State<InformationForm> {
 
   // Personal Information Controllers
   final _nameController = TextEditingController();
-  final _ageController = TextEditingController();
   final _phoneController = TextEditingController();
   final _dobController = TextEditingController();
 
   String _selectedBloodGroup = '';
   final List<String> _bloodGroups = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
+
+  // Profile Image
+  File? _profileImage;
+  final ImagePicker _picker = ImagePicker();
 
   // Disease and Medicine Information
   List<DiseaseInfo> _diseases = [DiseaseInfo()];
@@ -26,10 +31,144 @@ class _InformationFormState extends State<InformationForm> {
   @override
   void dispose() {
     _nameController.dispose();
-    _ageController.dispose();
     _phoneController.dispose();
     _dobController.dispose();
     super.dispose();
+  }
+
+  Future<void> _pickImage() async {
+    showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext context) {
+        return Container(
+          padding: EdgeInsets.all(20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                'Select Profile Picture',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      _getImage(ImageSource.camera);
+                      Navigator.pop(context);
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            color: Colors.blue.shade100,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Icon(
+                            Icons.linked_camera_outlined,
+                            size: 30,
+                            color: Colors.blue.shade700,
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Text('Camera'),
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      _getImage(ImageSource.gallery);
+                      Navigator.pop(context);
+                    },
+                    child: Column(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            color: Colors.green.shade100,
+                            borderRadius: BorderRadius.circular(15),
+                          ),
+                          child: Icon(
+                            Icons.photo_library_outlined,
+                            size: 30,
+                            color: Colors.green.shade700,
+                          ),
+                        ),
+                        SizedBox(height: 8),
+                        Text('Gallery'),
+                      ],
+                    ),
+                  ),
+                  if (_profileImage != null)
+                    GestureDetector(
+                      onTap: () {
+                        _removeImage();
+                        Navigator.pop(context);
+                      },
+                      child: Column(
+                        children: [
+                          Container(
+                            padding: EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                              color: Colors.red.shade100,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Icon(
+                              Icons.delete,
+                              size: 30,
+                              color: Colors.red.shade700,
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text('Remove'),
+                        ],
+                      ),
+                    ),
+                ],
+              ),
+              SizedBox(height: 20),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _getImage(ImageSource source) async {
+    try {
+      final XFile? image = await _picker.pickImage(
+        source: source,
+        maxWidth: 512,
+        maxHeight: 512,
+        imageQuality: 80,
+      );
+      if (image != null) {
+        setState(() {
+          _profileImage = File(image.path);
+        });
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error picking image: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
+  }
+
+  void _removeImage() {
+    setState(() {
+      _profileImage = null;
+    });
   }
 
   void _addDisease() {
@@ -66,10 +205,10 @@ class _InformationFormState extends State<InformationForm> {
       Map<String, dynamic> formData = {
         'personalInfo': {
           'name': _nameController.text,
-          'age': int.tryParse(_ageController.text) ?? 0,
           'bloodGroup': _selectedBloodGroup,
           'phone': _phoneController.text,
           'dateOfBirth': _dobController.text,
+          'profileImagePath': _profileImage?.path ?? 'profile_image.png',
         },
         'diseases': _diseases.map((disease) => disease.toMap()).toList(),
         'emergencyContacts': _emergencyContacts.map((contact) => contact.toMap()).toList(),
@@ -105,6 +244,69 @@ class _InformationFormState extends State<InformationForm> {
     }
   }
 
+  Widget _buildProfileImageSection() {
+    return Container(
+      margin: EdgeInsets.only(bottom: 20),
+      child: Center(
+        child: GestureDetector(
+          onTap: _pickImage,
+          child: Container(
+            width: 120,
+            height: 120,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: Colors.grey.shade200,
+              border: Border.all(
+                color: Colors.green.shade300,
+                width: 3,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.3),
+                  spreadRadius: 2,
+                  blurRadius: 8,
+                  offset: Offset(0, 2),
+                ),
+              ],
+            ),
+            child: _profileImage != null
+                ? ClipOval(
+              child: Image.file(
+                _profileImage!,
+                width: 120,
+                height: 120,
+                fit: BoxFit.cover,
+              ),
+            )
+                : ClipOval(
+              child: Image.asset(
+                'assets/images/profile_image.png',
+                width: 120,
+                height: 120,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Container(
+                    width: 120,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.grey.shade300,
+                    ),
+                    child: Icon(
+                      Icons.person,
+                      size: 60,
+                      color: Colors.grey.shade600,
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -128,6 +330,9 @@ class _InformationFormState extends State<InformationForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Profile Image Section
+              _buildProfileImageSection(),
+
               // Personal Information Section
               _buildSectionHeader('Personal Information', Icons.person, Colors.blue),
               _buildPersonalInfoSection(),
@@ -230,54 +435,30 @@ class _InformationFormState extends State<InformationForm> {
           ),
           SizedBox(height: 15),
 
-          Row(
-            children: [
-              Expanded(
-                child: TextFormField(
-                  controller: _ageController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'Age *',
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                    prefixIcon: Icon(Icons.cake_outlined),
-                  ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter age';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              SizedBox(width: 15),
-              Expanded(
-                child: DropdownButtonFormField<String>(
-                  value: _selectedBloodGroup.isEmpty ? null : _selectedBloodGroup,
-                  decoration: InputDecoration(
-                    labelText: 'Blood Group *',
-                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
-                    prefixIcon: Icon(Icons.bloodtype_outlined),
-                  ),
-                  items: _bloodGroups.map((String group) {
-                    return DropdownMenuItem<String>(
-                      value: group,
-                      child: Text(group),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-                    setState(() {
-                      _selectedBloodGroup = newValue!;
-                    });
-                  },
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please select blood group';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-            ],
+          DropdownButtonFormField<String>(
+            value: _selectedBloodGroup.isEmpty ? null : _selectedBloodGroup,
+            decoration: InputDecoration(
+              labelText: 'Blood Group *',
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+              prefixIcon: Icon(Icons.bloodtype_outlined),
+            ),
+            items: _bloodGroups.map((String group) {
+              return DropdownMenuItem<String>(
+                value: group,
+                child: Text(group),
+              );
+            }).toList(),
+            onChanged: (String? newValue) {
+              setState(() {
+                _selectedBloodGroup = newValue!;
+              });
+            },
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please select blood group';
+              }
+              return null;
+            },
           ),
           SizedBox(height: 15),
 
@@ -285,16 +466,10 @@ class _InformationFormState extends State<InformationForm> {
             controller: _phoneController,
             keyboardType: TextInputType.phone,
             decoration: InputDecoration(
-              labelText: 'Phone Number *',
+              labelText: 'Phone Number',
               border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
               prefixIcon: Icon(Icons.phone_outlined),
             ),
-            validator: (value) {
-              if (value == null || value.isEmpty) {
-                return 'Please enter phone number';
-              }
-              return null;
-            },
           ),
           SizedBox(height: 15),
 
